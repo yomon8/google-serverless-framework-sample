@@ -1,0 +1,14 @@
+@startuml
+actor User as user
+package "GCS" as gcs {
+    file text
+}
+
+card "Cloud Functions" as cf
+database BQ as bq
+
+
+user -up-> text : put
+text -> cf : event
+cf -> bq : load
+@enduml

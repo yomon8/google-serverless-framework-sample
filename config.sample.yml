@@ -1,0 +1,11 @@
+---
+location: asia-northeast1
+project: your-project-name
+credentialFilePath: ~/.config/gcloud/application_default_credentials.json
+gcs:
+  bucketName: your-bucket-name
+  objectCharset: utf8
+  fieldDelimiter: ___
+bigquery:
+  dataset: yourdataset
+  table: sls_sample_table

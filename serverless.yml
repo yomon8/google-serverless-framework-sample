@@ -1,0 +1,52 @@
+service: cloudfunctions-gcs-bq-sample
+
+frameworkVersion: "3"
+
+plugins:
+  - serverless-google-cloudfunctions
+
+custom:
+  defaultStage: dev
+  config: ${file(./config.yml)}
+
+provider:
+  name: google
+  project: ${self:custom.config.project}
+  region: ${self:custom.config.location}
+  stage: ${opt:stage,self:custom.defaultStage}
+  runtime: python39
+  credentials: ${self:custom.config.credentialFilePath}
+
+package:
+  exclude:
+    - node_modules/**
+    - .gitignore
+    - .git/**
+
+functions:
+  loadToBq:
+    handler: handler
+    events:
+      - event:
+          eventType: google.storage.object.finalize
+          resource: projects/${self:custom.config.project}/buckets/${self:custom.config.gcs.bucketName}
+    environment:
+      GCP_PROJECT: ${self:custom.config.project}
+      GCP_LOCATION: ${self:custom.config.location}
+      BQ_TABLE_ID: ${self:custom.config.project}.${self:custom.config.bigquery.dataset}.${self:custom.config.bigquery.table}
+      OBJECT_CHARSET: ${self:custom.config.gcs.objectCharset}
+      FIELD_DELIMITER: ${self:custom.config.gcs.fieldDelimiter}
+
+resources:
+  resources:
+    - type: storage.v1.bucket
+      name: ${self:custom.config.gcs.bucketName}
+      properties:
+        location: ${self:custom.config.location}
+    - type: bigquery.v2.dataset
+      name: ${self:custom.config.bigquery.dataset}
+      properties:
+        location: ${self:custom.config.location}
+        datasetReference:
+          projectId: ${self:custom.config.project}
+          datasetId: ${self:custom.config.bigquery.dataset}
