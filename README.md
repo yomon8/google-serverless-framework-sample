@@ -1,5 +1,7 @@
 # Google Cloud Functions with Serverless Framework Sample
 
+[BLOG(Japanese)](https://yomon.hatenablog.com/entry/2022/03/cloud_functions_serverless_farmework)
+
 ![](./image.svg)
 
 ## Requirements
@@ -66,6 +68,6 @@ bq query "select * from ${TEST_DATASET}.${TEST_TABLE}"
 
 ```sh
 bq rm ${TEST_DATASET}.${TEST_TABLE}
-gsutil rm -r gs://${TEST_BUCKET}/
+gsutil rm gs://${TEST_BUCKET}/**
 sls remove
 ```
