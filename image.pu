@@ -9,6 +9,7 @@ database BQ as bq
 
 
 user -up-> text : put
-text -> cf : event
+gcs -> cf : event
+text -> cf : download
 cf -> bq : load
 @enduml
