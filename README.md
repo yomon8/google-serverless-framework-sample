@@ -31,6 +31,12 @@ vim config.yml
 
 ### Deploy serverless stack
 
+This command will deploy the following resources.
+
+- Cloud Functions
+- GCS Bucket
+- BigQuery Dataset
+
 ```sh
 sls deploy
 ```
